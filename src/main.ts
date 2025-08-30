@@ -41,7 +41,7 @@ update()
 form?.addEventListener('submit', async e => {
   e.preventDefault()
 
-  const data = new FormData(e.target)
+  const data = new FormData(form)
   const text = data.get("message")
   const time = Date.now()
 
@@ -75,5 +75,6 @@ form?.addEventListener('submit', async e => {
 
   update()
 
+  forn.reset()
 
 })
