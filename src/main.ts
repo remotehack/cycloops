@@ -23,11 +23,12 @@ async function update() {
 
   posts.innerHTML = ''
 
-  for(const note of notes) {
+  for(const note of notes) { 
 
     const li = document.createElement('li')
 
-    li.innerText = JSON.stringify(note);
+    const timestamp = new Date(note.time)
+    li.innerText = `${note.text} (${timestamp.toLocaleString()})`
 
     posts.appendChild(li)
 
