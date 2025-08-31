@@ -76,6 +76,6 @@ form?.addEventListener('submit', async e => {
 
   update()
 
-  forn.reset()
+  form.reset()
 
 })
