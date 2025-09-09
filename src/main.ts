@@ -1,5 +1,5 @@
 import './style.css'
-import Dexie, { type EntityTable } from "dexie";
+import Dexie, { type EntityTable, liveQuery } from "dexie";
 
 interface Note {
   id: number;
@@ -18,27 +18,30 @@ db.version(1).stores({
   notes: "++id, time, text, lat, lon",
 });
 
+const query = liveQuery(() => db.notes.orderBy("time").reverse().toArray());
+
+query.subscribe({
+  next(notes) {
+    console.log("Subs", notes);
+
+    posts.innerHTML = "";
+
+    for (const note of notes) {
+      const li = document.createElement("li");
+
+      const timestamp = new Date(note.time);
+      li.innerText = `${note.text} (${timestamp.toLocaleString()})`;
+
+      posts.appendChild(li);
+    }
+  },
+  error(err) {
+    console.error(err);
+  },
+});
+
 const form = document.querySelector("form")!;
 const posts = document.querySelector("ol")!;
-
-async function update() {
-  const notes = await db.notes.orderBy("time").reverse().toArray();
-
-  console.log(notes);
-
-  posts.innerHTML = "";
-
-  for (const note of notes) {
-    const li = document.createElement("li");
-
-    const timestamp = new Date(note.time);
-    li.innerText = `${note.text} (${timestamp.toLocaleString()})`;
-
-    posts.appendChild(li);
-  }
-}
-
-update();
 
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -67,8 +70,6 @@ form?.addEventListener("submit", async (e) => {
   });
 
   console.log(noteId);
-
-  update();
 
   form.reset();
 });
