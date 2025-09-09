@@ -23,12 +23,9 @@ a:hover {
 }
 
 body {
-  margin: 3em;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* place-items: center; */
-  min-width: 320px;
-  min-height: 100vh;
+  max-width: 500px;
+  margin: auto ;
+  padding: 1em;
 }
 
 @media (prefers-color-scheme: light) {
@@ -39,7 +36,34 @@ body {
   a:hover {
     color: #747bff;
   }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+
+form {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+button {
+  border-radius: 100%;
+  border: none;
+  height: 42px;
+  width: 42px;
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: #7773;
+}
+
+textarea {
+  border-radius: 22px;
+  padding: 12px;
+  font-family: inherit;
+  resize: none;
+  border: none;
+  flex: 1;
+  font-weight: 600;
+  background-color: #7773;
 }

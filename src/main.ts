@@ -79,3 +79,16 @@ form?.addEventListener('submit', async e => {
   form.reset()
 
 })
+
+
+// resize any text areas to fit content
+for(const textarea of document.querySelectorAll('textarea')) {
+
+  textarea.addEventListener('input', () => {
+      const padding = 12;
+
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight - (padding * 2)}px`;
+  })
+}
+
