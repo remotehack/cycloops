@@ -13,6 +13,8 @@
     "vite": "^7.1.2"
   },
   "dependencies": {
+    "@turf/turf": "^7.2.0",
+    "date-fns": "^4.1.0",
     "dexie": "^4.2.0"
   }
 }

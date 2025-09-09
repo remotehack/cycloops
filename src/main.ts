@@ -1,5 +1,7 @@
 import './style.css'
 import Dexie, { type EntityTable, liveQuery } from "dexie";
+import { distance, type Coord } from "@turf/turf";
+import { formatDistanceStrict } from "date-fns";
 
 interface Note {
   id: number;
@@ -20,19 +22,52 @@ db.version(1).stores({
 
 const query = liveQuery(() => db.notes.orderBy("time").reverse().toArray());
 
+const number = new Intl.NumberFormat(undefined, {
+  style: "unit",
+  unit: "kilometer",
+  maximumSignificantDigits: 3,
+});
+
 query.subscribe({
   next(notes) {
     console.log("Subs", notes);
 
     posts.innerHTML = "";
 
-    for (const note of notes) {
-      const li = document.createElement("li");
+    let last: Note | null = null;
 
-      const timestamp = new Date(note.time);
-      li.innerText = `${note.text} (${timestamp.toLocaleString()})`;
+    for (const note of notes) {
+      if (last) {
+        const far = distance([last.lon, last.lat], [note.lon, note.lat], {
+          units: "kilometers",
+        });
+        const time = last.time - note.time;
+        console.log(
+          far,
+          time,
+          number.format(far),
+          formatDistanceStrict(last.time, note.time)
+        );
+
+        const div = document.createElement("li");
+        div.className = "delta";
+        div.innerText = `${formatDistanceStrict(
+          last.time,
+          note.time
+        )} · ${number.format(far)}`;
+
+        posts.appendChild(div);
+      }
+
+      const li = document.createElement("li");
+      li.className = "note";
+
+      // const timestamp = new Date(note.time);
+      li.innerText = note.text;
 
       posts.appendChild(li);
+
+      last = note;
     }
   },
   error(err) {
