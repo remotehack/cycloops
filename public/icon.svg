@@ -2,7 +2,7 @@
     <style>
         .themed-fill { fill: #555; }
         @media (prefers-color-scheme: dark) {
-        .themed-fill { fill: white; }
+        .themed-fill { fill: #ccc; }
         }
     </style>
     <path
