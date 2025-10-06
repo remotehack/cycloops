@@ -27,32 +27,33 @@ export class CycloopsMenu extends HTMLDivElement {
           cursor: pointer;
         }
 
-        .dropdown {
-          display: none;
+        dialog {
           position: absolute;
           top: 100%;
           left: 0;
+          margin: 0;
+          border: none;
+          padding: 0;
           background-color: #fff;
           min-width: 160px;
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
           border-radius: 11px;
           overflow: hidden;
         }
 
-        .dropdown a {
+        dialog::backdrop {
+          background: transparent;
+        }
+
+        dialog a {
           color: #000;
           padding: 12px 16px;
           text-decoration: none;
           display: block;
         }
 
-        .dropdown a:hover {
+        dialog a:hover {
           background-color: #0001;
-        }
-
-        .show {
-          display: block;
         }
       </style>
       <button>
@@ -60,25 +61,29 @@ export class CycloopsMenu extends HTMLDivElement {
           <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
         </svg>
       </button>
-      <div class="dropdown">
+      <dialog>
         <a href="#" id="export-geojson">Export as GeoJSON</a>
-      </div>
+      </dialog>
     `;
   }
 
   connectedCallback() {
     const button = this.shadowRoot!.querySelector("button");
-    const dropdown = this.shadowRoot!.querySelector(".dropdown");
+    const dialog = this.shadowRoot!.querySelector("dialog");
     const exportLink = this.shadowRoot!.querySelector("#export-geojson");
 
     button?.addEventListener("click", () => {
-      dropdown?.classList.toggle("show");
+      if (dialog?.open) {
+        dialog.close();
+      } else {
+        dialog?.showModal();
+      }
     });
 
     exportLink?.addEventListener("click", (e) => {
       e.preventDefault();
       this.exportAsGeoJSON();
-      dropdown?.classList.remove("show");
+      dialog?.close();
     });
   }
 
