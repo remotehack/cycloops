@@ -92,3 +92,16 @@ li.delta {
   background-color: transparent;
   margin: auto;
 }
+
+cycloops-io {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 1em 0;
+  opacity: 0.4;
+  transition: opacity .2s;
+}
+
+cycloops-io:hover {
+  opacity: 1;
+}
