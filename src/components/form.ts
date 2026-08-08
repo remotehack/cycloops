@@ -38,7 +38,7 @@ export class CycloopsForm extends HTMLFormElement {
           lon: position.coords.longitude,
         });
       },
-      async () => {
+      () => {
         // Keep lat/lon as 0,0 on failure — note is already saved
       }
     );

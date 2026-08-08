@@ -62,7 +62,7 @@ describe('CycloopsForm component', () => {
     expect(db.notes.update).toHaveBeenCalledWith(1, { lat: 50, lon: 50 })
   })
 
-  it('should not add a note when message is empty', async () => {
+  it('should not add a note when message is whitespace only', async () => {
     const textarea = form.querySelector('textarea') as HTMLTextAreaElement
     textarea.value = '   '
 
