@@ -21,6 +21,13 @@ describe('map computed signals', () => {
     expect(noteLocations.value.features[1].properties.id).toBe(2)
   })
 
+  it('noteLocations should exclude notes with placeholder 0,0 coordinates', () => {
+    const placeholder: Note = { id: 3, time: Date.now(), text: 'Pending', lat: 0, lon: 0 }
+    notes.value = [note1, placeholder]
+    expect(noteLocations.value.features.length).toBe(1)
+    expect(noteLocations.value.features[0].properties.id).toBe(1)
+  })
+
   it('visibleLocations should filter notes based on visibility', () => {
     notes.value = [note1, note2]
     visible.value = new Set([1])

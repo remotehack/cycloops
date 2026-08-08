@@ -11,7 +11,9 @@ type Locations = GeoJSON.FeatureCollection<
 
 export const noteLocations = computed<Locations>(() => ({
   type: "FeatureCollection",
-  features: notes.value.map((note) => ({
+  features: notes.value
+    .filter((note) => note.lat !== 0 || note.lon !== 0)
+    .map((note) => ({
     type: "Feature",
     properties: {
       id: note.id,
